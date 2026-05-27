@@ -1,0 +1,17 @@
+{
+  "max_subagent_depth": 3,
+  "retry_settings": {
+    "max_retries": 3,
+    "backoff_factor": 2,
+    "enable_jitter": true
+  },
+  "context_isolation": {
+    "enable_sandboxing": true,
+    "max_tokens_per_agent": 32768
+  },
+  "monitoring": {
+    "track_tokens": true,
+    "track_latency": true,
+    "heartbeat_interval_seconds": 30
+  }
+}

@@ -1,0 +1,17 @@
+# Deployment Pipeline Workflow
+name: deployment_pipeline
+pipeline:
+  - stage: containerization
+    agent: devops_engineer
+    inputs: [artifacts/backend, artifacts/frontend]
+    outputs: [docker_images]
+  
+  - stage: infrastructure_provisioning
+    agent: cloud_engineer
+    inputs: [docker_images]
+    outputs: [kubernetes_manifests]
+  
+  - stage: site_reliability_setup
+    agent: sre_engineer
+    inputs: [kubernetes_manifests]
+    outputs: [monitoring/performance]

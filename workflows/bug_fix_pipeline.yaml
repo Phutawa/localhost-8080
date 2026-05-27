@@ -1,0 +1,17 @@
+# Bug Fix Pipeline Workflow
+name: bug_fix_pipeline
+pipeline:
+  - stage: triage_bug
+    agent: qa_engineer
+    inputs: [bug_reports.md]
+    outputs: [triaged_bug]
+  
+  - stage: debug_code
+    agent: fullstack_engineer
+    inputs: [triaged_bug]
+    outputs: [bug_fix_patch]
+  
+  - stage: validation
+    agent: qa_engineer
+    inputs: [bug_fix_patch]
+    outputs: [test_verdict]

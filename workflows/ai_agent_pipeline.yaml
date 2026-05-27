@@ -1,0 +1,22 @@
+# AI Agent Pipeline Workflow
+name: ai_agent_pipeline
+pipeline:
+  - stage: design_prompt
+    agent: prompt_engineer
+    inputs: [task_specification]
+    outputs: [memory/prompts]
+  
+  - stage: configure_rag
+    agent: rag_engineer
+    inputs: [knowledge_source]
+    outputs: [memory/projects]
+  
+  - stage: integrate_mcp
+    agent: mcp_engineer
+    inputs: [tools_specification]
+    outputs: [configs/mcp_config.json]
+  
+  - stage: context_tuning
+    agent: context_manager
+    inputs: [memory/prompts, configs/mcp_config.json]
+    outputs: [optimized_agent_context]

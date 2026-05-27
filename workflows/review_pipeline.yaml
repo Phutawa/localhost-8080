@@ -1,0 +1,17 @@
+# Review Pipeline Workflow
+name: review_pipeline
+pipeline:
+  - stage: static_code_analysis
+    agent: code_reviewer
+    inputs: [source_code]
+    outputs: [lint_report]
+  
+  - stage: topology_review
+    agent: architecture_reviewer
+    inputs: [architecture_notes.md]
+    outputs: [coupling_report]
+  
+  - stage: gatekeeper_signoff
+    agent: final_reviewer
+    inputs: [lint_report, coupling_report]
+    outputs: [gatekeeper_approval]

@@ -1,0 +1,57 @@
+# Website Generation Workflow Pipeline
+name: website_generation
+pipeline:
+  - stage: requirements_analysis
+    agent: business_analyst
+    inputs: [raw_user_request]
+    outputs: [project_requirements.md]
+  
+  - stage: project_planning
+    agent: project_manager
+    inputs: [project_requirements.md]
+    outputs: [sprint_tasks.md]
+  
+  - stage: architecture_design
+    agent: system_architect
+    inputs: [project_requirements.md]
+    outputs: [architecture_notes.md, api_specs.md]
+  
+  - stage: ui_ux_design
+    agent: ui_designer
+    inputs: [architecture_notes.md]
+    outputs: [artifacts/ui_mockups]
+  
+  - stage: code_implementation
+    agent: fullstack_engineer
+    inputs: [architecture_notes.md, api_specs.md, artifacts/ui_mockups]
+    outputs: [artifacts/frontend, artifacts/backend]
+  
+  - stage: qa_testing
+    agent: qa_engineer
+    inputs: [artifacts/frontend, artifacts/backend]
+    outputs: [bug_reports.md]
+  
+  - stage: code_review
+    agent: code_reviewer
+    inputs: [artifacts/frontend, artifacts/backend, bug_reports.md]
+    outputs: [review_approval]
+  
+  - stage: architecture_review
+    agent: architecture_reviewer
+    inputs: [architecture_notes.md, review_approval]
+    outputs: [architecture_approval]
+  
+  - stage: final_approval
+    agent: final_reviewer
+    inputs: [architecture_approval, review_approval]
+    outputs: [release_candidate]
+  
+  - stage: deployment
+    agent: devops_engineer
+    inputs: [release_candidate]
+    outputs: [artifacts/deployment]
+  
+  - stage: sre_monitoring
+    agent: sre_engineer
+    inputs: [artifacts/deployment]
+    outputs: [monitoring/workflow_status]
