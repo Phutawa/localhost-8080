@@ -6,6 +6,8 @@ setup(
     packages=find_packages(),
     install_requires=[
         "pyyaml>=6.0",
+        "openai",
+        "python-dotenv",
     ],
     entry_points={
         "console_scripts": [

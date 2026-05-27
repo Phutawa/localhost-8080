@@ -9,6 +9,8 @@ description = "AI Agentic Operating System (AIOS) CLI"
 requires-python = ">=3.8"
 dependencies = [
     "pyyaml>=6.0",
+    "openai",
+    "python-dotenv",
 ]
 
 [project.scripts]
