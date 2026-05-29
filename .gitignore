@@ -8,5 +8,10 @@ build/
 .pytest_cache/
 .env
 scratch/
+graphify-out/
+bug_reports.md
+triaged_bug
+bug_fix_patch
+test_verdict
 
 

@@ -14,6 +14,7 @@ from runtime.context_manager import ContextManager
 from runtime.memory_manager import MemoryManager
 from runtime.task_router import TaskRouter
 from runtime.execution_engine import ExecutionEngine
+from runtime.event_bus import EventBus
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("AIOS")
@@ -95,6 +96,17 @@ def main():
     memory_manager = MemoryManager(memory_dir=memory_dir)
     task_router = TaskRouter()
     execution_engine = ExecutionEngine()
+    event_bus = EventBus()
+
+    # Register EventBus logging listeners
+    def on_task_started(data):
+        logger.info(f"[EventBus Alert] Agent '{data['agent']}' started executing task: '{data['task']}'")
+
+    def on_task_completed(data):
+        logger.info(f"[EventBus Alert] Agent '{data['agent']}' successfully completed task.")
+
+    event_bus.subscribe("task_started", on_task_started)
+    event_bus.subscribe("task_completed", on_task_completed)
 
     # Process pipeline stages
     for idx, stage in enumerate(stages):
@@ -135,7 +147,8 @@ def main():
         # 3. Initialize Context
         context_manager.init_context(agent_role)
 
-        # 4. Check Inputs
+        # 4. Check Inputs and Load Content
+        input_data = {}
         for inp in inputs:
             # Find input in workspace root or memory folder
             inp_path = os.path.join(workspace_dir, inp)
@@ -144,6 +157,11 @@ def main():
             
             if os.path.exists(inp_path):
                 logger.info(f"Agent '{agent_role}' successfully loaded input: {inp}")
+                try:
+                    with open(inp_path, "r", encoding="utf-8") as f:
+                        input_data[inp] = f.read()
+                except Exception as e:
+                    logger.warning(f"Failed to read input file '{inp}': {e}")
             else:
                 logger.warning(f"Agent '{agent_role}' input dependency '{inp}' not found in workspace.")
 
@@ -156,10 +174,11 @@ def main():
             "Assigned_Agent": agent_role,
             "Agent_Context": agent_system_context,
             "Inputs": inputs,
+            "Input_Data": input_data,
             "Outputs": outputs
         }
         execution_engine.queue_task(task_payload)
-        execution_engine.run()
+        execution_engine.run(context_manager=context_manager, event_bus=event_bus)
 
         # 6. Write Outputs to Workspace
         # Retrieve generated result from the execution engine for this task

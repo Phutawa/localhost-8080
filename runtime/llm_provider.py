@@ -64,4 +64,4 @@ class LLMProvider:
                 return "[LLM Response Empty]"
         except Exception as e:
             logger.error(f"Gemini Error: {e}")
-            return f"[ERROR] {e}"
+            raise e

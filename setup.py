@@ -8,6 +8,7 @@ setup(
         "pyyaml>=6.0",
         "openai",
         "python-dotenv",
+        "google-generativeai",
     ],
     entry_points={
         "console_scripts": [
