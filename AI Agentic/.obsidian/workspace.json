@@ -11,10 +11,13 @@
             "id": "c12f0336e5c352f3",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "มุมมองกราฟ"
+              "type": "bases",
+              "state": {
+                "file": "ยังไม่ได้ตั้งชื่อ.base",
+                "viewName": "ตาราง"
+              },
+              "icon": "lucide-table",
+              "title": "ยังไม่ได้ตั้งชื่อ"
             }
           }
         ]
@@ -70,8 +73,7 @@
               "title": "บุ๊กมาร์ก"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -91,6 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "ยังไม่ได้ตั้งชื่อ.base",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,7 +103,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "แบ็คลิงค์"
+              "title": "แบ็คลิงค์ของ ยังไม่ได้ตั้งชื่อ"
             }
           },
           {
@@ -109,11 +112,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "ยังไม่ได้ตั้งชื่อ.base",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "ลิงค์ขาออก"
+              "title": "ลิงค์ขาออกของ ยังไม่ได้ตั้งชื่อ"
             }
           },
           {
@@ -151,12 +155,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "ยังไม่ได้ตั้งชื่อ.base",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "โครงเรื่อง"
+              "title": "โครงเรื่องของ ยังไม่ได้ตั้งชื่อ"
             }
           }
         ]
@@ -177,8 +182,9 @@
       "bases:สร้างฐานใหม่": false
     }
   },
-  "active": "9b5c4ed1915770bf",
+  "active": "c12f0336e5c352f3",
   "lastOpenFiles": [
+    "ยังไม่ได้ตั้งชื่อ.base",
     "ยังไม่ได้ตั้งชื่อ.canvas",
     "ยังไม่ได้ตั้งชื่อ",
     "ยินดีต้อนรับ.md",

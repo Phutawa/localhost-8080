@@ -20,8 +20,19 @@
               "icon": "lucide-file",
               "title": "performance_tester"
             }
+          },
+          {
+            "id": "c39755aba6704276",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "แท็บใหม่"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -94,7 +105,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "validation/performance_tester.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +114,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "แบ็คลิงค์ของ performance_tester"
+              "title": "แบ็คลิงค์"
             }
           },
           {
@@ -113,12 +123,11 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "validation/performance_tester.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "ลิงค์ขาออกของ performance_tester"
+              "title": "ลิงค์ขาออก"
             }
           },
           {
@@ -156,13 +165,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "validation/performance_tester.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "โครงเรื่องของ performance_tester"
+              "title": "โครงเรื่อง"
             }
           }
         ]
@@ -183,8 +191,9 @@
       "bases:สร้างฐานใหม่": false
     }
   },
-  "active": "a990b0ced5e02e51",
+  "active": "c39755aba6704276",
   "lastOpenFiles": [
+    "validation/performance_tester.md",
     "validation/qa_engineer.md",
     "ยังไม่ได้ตั้งชื่อ.canvas",
     "ai_systems/biomedical_rd_agent.md",
