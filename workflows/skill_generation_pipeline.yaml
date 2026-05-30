@@ -1,0 +1,12 @@
+# Skill Generation Pipeline Workflow
+name: skill_generation_pipeline
+pipeline:
+  - stage: define_skill
+    agent: skill_creator
+    inputs: [skill_requirements.md]
+    outputs: [skills/new_skill.md]
+  
+  - stage: review_skill
+    agent: prompt_engineer
+    inputs: [skills/new_skill.md]
+    outputs: [skills/reviewed_skill.md]

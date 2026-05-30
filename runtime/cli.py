@@ -28,7 +28,7 @@ def main():
     parser = argparse.ArgumentParser(description="AI Agentic Operating System (AIOS) CLI Runner")
     parser.add_argument(
         "-w", "--workflow",
-        required=True,
+        required=False,
         help="Path to the workflow YAML file (e.g. bug_fix_pipeline.yaml)"
     )
     parser.add_argument(
@@ -46,6 +46,21 @@ def main():
         default=None,
         help="Path to shared memory directory (default: <workspace>/memory)"
     )
+    parser.add_argument(
+        "--review",
+        action="store_true",
+        help="Run local code review on files"
+    )
+    parser.add_argument(
+        "--ultra-review",
+        action="store_true",
+        help="Run parallel multi-agent ultra-review on files"
+    )
+    parser.add_argument(
+        "--files",
+        nargs="+",
+        help="List of files to review"
+    )
 
     args = parser.parse_args()
 
@@ -58,8 +73,41 @@ def main():
     else:
         memory_dir = os.path.join(workspace_dir, "memory")
 
+    # Handle Code Review requests directly
+    if args.review or args.ultra_review:
+        if not args.files:
+            logger.error("Please specify files to review using the --files argument.")
+            sys.exit(1)
+        
+        from runtime.review_engine import ReviewEngine
+        from runtime.claude_mem import ClaudeMem
+        
+        review_engine = ReviewEngine(agents_dir=agents_dir)
+        mem = ClaudeMem(memory_dir=memory_dir, workspace_dir=workspace_dir)
+        
+        if args.review:
+            report = review_engine.run_local_review(workspace_dir, args.files)
+            review_type = "local-review"
+        else:
+            report = review_engine.run_ultra_review(workspace_dir, args.files)
+            review_type = "ultra-review"
+            
+        print("\n==========================================")
+        print("📝 CODE REVIEW REPORT")
+        print("==========================================")
+        print(report)
+        print("==========================================\n")
+        
+        # Log to memories
+        mem.log_event("review", f"Ran {review_type} on files: {', '.join(args.files)}")
+        sys.exit(0)
+
     # Locate workflow file (check local workspace, then package defaults)
     workflow_path = args.workflow
+    if not workflow_path:
+        logger.error("No workflow specified. Specify -w to run a workflow, or --review/--ultra-review with --files to run reviews.")
+        sys.exit(1)
+
     if not os.path.exists(workflow_path):
         fallback_path = os.path.join(default_workflows_dir, workflow_path)
         if os.path.exists(fallback_path):
@@ -97,6 +145,16 @@ def main():
     task_router = TaskRouter()
     execution_engine = ExecutionEngine()
     event_bus = EventBus()
+
+    # Claude Mem initialization and session logging
+    from runtime.claude_mem import ClaudeMem
+    mem = ClaudeMem(memory_dir=memory_dir, workspace_dir=workspace_dir)
+    mem.log_event("session_start", f"Starting workflow engine for pipeline '{pipeline_name}'")
+    
+    # Retrieve and log relevant history memories
+    history_memories = mem.retrieve_relevant_memories(pipeline_name)
+    if history_memories:
+        logger.info("Found relevant historical memories to inject.")
 
     # Register EventBus logging listeners
     def on_task_started(data):
@@ -169,6 +227,7 @@ def main():
         # Retrieve agent profile raw content for system prompt setup
         agent_system_context = profile.get("raw_content", f"You are {agent_role}, a specialized AI Agent inside the AIOS platform.")
         
+        mem.log_event("task_start", f"Running stage '{stage_name}' assigned to agent '{agent_role}'")
         task_payload = {
             "Task": f"Run stage {stage_name}",
             "Assigned_Agent": agent_role,
@@ -202,8 +261,11 @@ def main():
                     f.write(llm_result)
             
             logger.info(f"Saved output artifact to: {out_path}")
+            mem.log_event("file_write", f"Saved output artifact to {out}", file_path=out)
 
         # 7. Persist Decision Log
+        decision_desc = f"Completed stage {stage_name} using agent {agent_role}"
+        mem.log_event("decision", decision_desc)
         memory_manager.persist_decision(
             decision_id=f"stage_{stage_name}_run",
             decision_data={
@@ -213,6 +275,7 @@ def main():
             }
         )
 
+    mem.log_event("session_end", f"Successfully completed workflow '{pipeline_name}'")
     print(f"\n🚀 AIOS Workflow '{pipeline_name}' completed successfully!")
     print(f"All generated files have been saved to workspace: {workspace_dir}\n")
 

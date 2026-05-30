@@ -13,5 +13,10 @@
     "track_tokens": true,
     "track_latency": true,
     "heartbeat_interval_seconds": 30
+  },
+  "developer_capabilities": {
+    "enable_superpowers": true,
+    "enable_gsd": true,
+    "enable_context_mode": true
   }
 }

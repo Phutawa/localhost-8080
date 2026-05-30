@@ -75,6 +75,14 @@ class ExecutionEngine:
         if input_data:
             input_text = "\nHere is the content of the input files for this task:\n"
             for filename, content in input_data.items():
+                # Context Mode: compress input outputs if enabled
+                capabilities = getattr(context_manager, "config", {}).get("developer_capabilities", {})
+                if capabilities.get("enable_context_mode", False):
+                    from runtime.tool_sandbox import ToolSandbox
+                    compressed_content = ToolSandbox.compress_tool_output(filename, content)
+                    logger.info(f"[Context Mode] Compressed input '{filename}' from {len(content)} to {len(compressed_content)} bytes")
+                    content = compressed_content
+                
                 input_text += f"--- START OF FILE: {filename} ---\n{content}\n--- END OF FILE: {filename} ---\n\n"
 
         user_prompt = f"""
@@ -90,13 +98,23 @@ Execute this task and provide the output/result.
         if event_bus:
             event_bus.publish("task_started", {"task": task_desc, "agent": agent_name})
 
-        # 4. Generate Response using the 4-stage RetryHandler
+        # 4. Generate Response using the 4-stage RetryHandler or GSD Orchestrator
         try:
-            result = self.retry_handler.execute_with_retry(
-                LLMProvider.generate,
-                prompt=user_prompt,
-                system_prompt=system_prompt
-            )
+            capabilities = getattr(context_manager, "config", {}).get("developer_capabilities", {})
+            if capabilities.get("enable_gsd", False):
+                from runtime.gsd_orchestrator import GsdOrchestrator
+                gsd = GsdOrchestrator(context_manager=context_manager)
+                result = gsd.orchestrate_task(
+                    parent_task_desc=task_desc,
+                    agent_name=agent_name,
+                    agent_context=system_prompt
+                )
+            else:
+                result = self.retry_handler.execute_with_retry(
+                    LLMProvider.generate,
+                    prompt=user_prompt,
+                    system_prompt=system_prompt
+                )
         except Exception as e:
             logger.error(f"Task execution failed permanently: {e}")
             result = f"[Error Fallback] Execution failed permanently: {e}"

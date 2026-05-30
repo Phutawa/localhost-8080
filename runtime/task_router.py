@@ -26,9 +26,13 @@ class TaskRouter:
             "prompt": "ai_systems",
             "rag": "ai_systems",
             "mcp": "ai_systems",
+            "skill": "ai_systems",
             "biomedical": "ai_systems",
             "medicine": "ai_systems",
-            "clinical": "ai_systems"
+            "clinical": "ai_systems",
+            "dsp": "engineering",
+            "owner": "executive",
+            "writer": "executive"
         }
 
     def route_task(self, task_name: str) -> str:

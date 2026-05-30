@@ -1,0 +1,17 @@
+# DSP Feature Generation Pipeline
+name: dsp_feature_pipeline
+pipeline:
+  - stage: define_requirements
+    agent: product_owner
+    inputs: [bug_reports.md]
+    outputs: [dsp_requirements.md]
+  
+  - stage: design_dsp_filter
+    agent: dsp_engineer
+    inputs: [dsp_requirements.md]
+    outputs: [dsp_filter_design.md]
+  
+  - stage: document_filter_api
+    agent: technical_writer
+    inputs: [dsp_filter_design.md]
+    outputs: [dsp_api_documentation.md]

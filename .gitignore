@@ -14,4 +14,15 @@ triaged_bug
 bug_fix_patch
 test_verdict
 
+# Temp generated artifacts
+dsp_requirements.md
+dsp_filter_design.md
+dsp_api_documentation.md
+skills/new_skill.md
+skills/reviewed_skill.md
+
+# Memory files
+memory/*.db
+
+
 
