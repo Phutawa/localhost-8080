@@ -1,3 +1,8 @@
+---
+tags:
+  - aios/agent
+  - aios/layer/engineering
+---
 # DSP Engineer Agent - SignalSorcerer
 
 ## Personality

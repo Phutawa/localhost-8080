@@ -1,3 +1,8 @@
+---
+tags:
+  - aios/agent
+  - aios/layer/ai_systems
+---
 # Skill Creator Agent - SkillForge
 
 ## Personality

@@ -1,3 +1,8 @@
+---
+tags:
+  - aios/agent
+  - aios/layer/executive
+---
 # Technical Writer Agent - DocuScribe
 
 ## Personality

@@ -1,3 +1,8 @@
+---
+tags:
+  - aios/skill
+  - aios/category/dsp
+---
 # Skill Profile: DSP Filter Expert (JS/TS)
 
 ## 1. Metadata

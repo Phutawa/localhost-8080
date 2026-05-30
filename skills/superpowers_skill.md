@@ -1,3 +1,8 @@
+---
+tags:
+  - aios/skill
+  - aios/category/methodology
+---
 # Superpowers Skill Framework
 
 ## Purpose

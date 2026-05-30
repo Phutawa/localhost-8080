@@ -1,3 +1,8 @@
+---
+tags:
+  - aios/agent
+  - aios/layer/executive
+---
 # Product Owner Agent - VisionKeeper
 
 ## Personality

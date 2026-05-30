@@ -1,3 +1,8 @@
+---
+tags:
+  - aios/memory
+  - aios/category/decisions
+---
 # Technical Decisions Log (Shared Memory)
 
 ## Architectural & Engineering Decisions
